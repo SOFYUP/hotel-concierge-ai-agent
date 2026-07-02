@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+hotel_agent_logs.txt
+*.log
+.adk/

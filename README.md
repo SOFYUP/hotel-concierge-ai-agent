@@ -1,86 +1,79 @@
-# hotel-concierge
+# 🏨 Hotel Alvear AI Concierge Agent
 
-Simple ReAct agent
-Agent generated with `agents-cli` version `0.5.0`
+> AI Concierge Agent for Hotel Alvear Palace - Kaggle AI Agents Intensive Capstone 2026
 
-## Project Structure
+## 🎯 What it does
 
-```
-hotel-concierge/
-├── app/         # Core agent code
-│   ├── agent.py               # Main agent logic
-│   └── app_utils/             # App utilities and helpers
-├── tests/                     # Unit, integration, and load tests
-├── GEMINI.md                  # AI-assisted development guide
-└── pyproject.toml             # Project dependencies
-```
+Intelligent digital concierge for Hotel Alvear Palace (Buenos Aires) that combines:
+- 🌤️ Real-time weather via OpenWeatherMap
+- 🍽️ Health-aware restaurant analysis (celiac, vegan, vegetarian, diabetic, allergies)
+- 🗺️ Real distances and Google Maps routes from the hotel
+- 🏨 Hotel services information (spa, restaurant, gym, pool)
+- 🔍 Places search with reviews analysis powered by Gemini AI
 
-> 💡 **Tip:** Use [Gemini CLI](https://github.com/google-gemini/gemini-cli) for AI-assisted development - project context is pre-configured in `GEMINI.md`.
+## ✨ Key Innovation
 
-## Requirements
+Instead of showing restaurants by star rating, the agent analyzes **real user reviews** to detect safety mentions specific to each health profile (cross-contamination, hidden gluten, etc.)
 
-Before you begin, ensure you have:
-- **uv**: Python package manager (used for all dependency management in this project) - [Install](https://docs.astral.sh/uv/getting-started/installation/) ([add packages](https://docs.astral.sh/uv/concepts/dependencies/) with `uv add <package>`)
-- **agents-cli**: Agents CLI - Install with `uv tool install google-agents-cli`
-- **Google Cloud SDK**: For GCP services - [Install](https://cloud.google.com/sdk/docs/install)
+## 🛠️ Tech Stack
 
+- Google ADK 2.0 + Gemini 2.5 Flash
+- Google Places API (New) + Routes API
+- OpenWeatherMap API
+- Python + pytest (13 security tests)
 
-## Quick Start
+## 🚀 Setup
 
-Install `agents-cli` and its skills if not already installed:
+### Requirements
+- Python 3.11+
+- uv package manager
+- API keys: Gemini, Google Places, OpenWeatherMap
 
-```bash
-uvx google-agents-cli setup
-```
-
-Install required packages:
+### Installation
 
 ```bash
-agents-cli install
+git clone https://github.com/SOFYUP/hotel-concierge-ai-agent
+cd hotel-concierge-ai-agent
+uv sync
 ```
 
-Test the agent with a local web server:
+### Configure API keys
 
 ```bash
-agents-cli playground
+export GEMINI_API_KEY="your-key"
+export PLACES_API_KEY="your-key"
+export OPENWEATHER_API_KEY="your-key"
 ```
 
-You can also use features from the [ADK](https://adk.dev/) CLI with `uv run adk`.
-
-## Commands
-
-| Command              | Description                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------- |
-| `agents-cli install` | Install dependencies using uv                                                         |
-| `agents-cli playground` | Launch local development environment                                                  |
-| `agents-cli lint`    | Run code quality checks                                                               |
-| `agents-cli eval`    | Evaluate agent behavior (generate, grade, analyze, and more — see `agents-cli eval --help`) |
-| `uv run pytest tests/unit tests/integration` | Run unit and integration tests                                                        |
-
-## 🛠️ Project Management
-
-| Command | What It Does |
-|---------|--------------|
-| `agents-cli scaffold enhance` | Add CI/CD pipelines and Terraform infrastructure |
-| `agents-cli infra cicd` | One-command setup of entire CI/CD pipeline + infrastructure |
-| `agents-cli scaffold upgrade` | Auto-upgrade to latest version while preserving customizations |
-
----
-
-## Development
-
-Edit your agent logic in `app/agent.py` and test with `agents-cli playground` - it auto-reloads on save.
-
-## Deployment
+### Run
 
 ```bash
-gcloud config set project <your-project-id>
-agents-cli deploy
+uv run adk web --host 127.0.0.1 --port 8080
 ```
 
-To add CI/CD and Terraform, run `agents-cli scaffold enhance`.
-To set up your production infrastructure, run `agents-cli infra cicd`.
+Open http://127.0.0.1:8080 in Chrome.
 
-## Observability
+### Run tests
 
-Built-in telemetry exports to Cloud Trace, BigQuery, and Cloud Logging.
+```bash
+uv run pytest tests/test_security.py -v
+```
+
+## 🔒 Security
+
+- Prompt injection protection (11 patterns)
+- Guardrails in agent instruction
+- Full execution logging
+- 13 automated security tests
+
+## 📊 Agent Architecture
+User → Orchestrator Agent (Gemini 2.5 Flash)
+├── get_clima() → OpenWeatherMap API
+├── analizar_restaurantes_por_perfil() → Places API + Gemini
+├── buscar_lugares() → Places API + Routes API
+└── get_servicios_hotel() → Hotel data
+
+## 🏆 Kaggle Capstone
+
+Built for the AI Agents Intensive Vibe Coding Capstone - Google & Kaggle 2026
+Category: Concierge Agents
